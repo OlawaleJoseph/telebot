@@ -5,7 +5,7 @@ require 'httparty'
 require_relative '../lib/joke'
 require_relative '../lib/quote'
 
-token = '1372093674:AAH0uBPjod1jZbbqehFktLildU-_rSbjcxg'
+token = ENV['TELEGRAM_API']
 joke_request = nil
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
