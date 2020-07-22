@@ -1,7 +1,6 @@
 require_relative '../lib/quote'
 
 describe Quote do
-  
   let(:quote) { Quote.new }
 
   it 'should return a joke' do

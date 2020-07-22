@@ -1,9 +1,24 @@
 require_relative 'helper'
 
 class Quote
-  def self.find_quote
+  def initialize
+    @quote = {}
+  end
+
+  private
+
+  attr_accessor :quote
+
+  def find_quote
     api = 'https://type.fit/api/quotes'
     res = Request.new_request(api)
-    res.sample
+    @quote = res.sample
+  end
+
+  public
+
+  def display_quote
+    find_quote
+    quote
   end
 end

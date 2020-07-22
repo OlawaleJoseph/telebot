@@ -6,8 +6,11 @@ require_relative '../lib/joke'
 require_relative '../lib/quote'
 
 token = ENV['TELEGRAM_API']
-joke_request = nil
-greet = "Hi, #{message.from.first_name} I am a chatbot and my name TELEBOT
+joke_request = false
+def bot_commands(bot, message)
+  case message.text
+  when '/help'
+    greet = "Hi, #{message.from.first_name} I am a chatbot and my name TELEBOT
     \n Commands:
     \n /start: Greets the user.
     \n /help: Displays the list of acceptable commands.
@@ -16,11 +19,6 @@ greet = "Hi, #{message.from.first_name} I am a chatbot and my name TELEBOT
     \n /quote: Displays quote.
     \n /joke: Asks for your name and makes a joke with your name.
     \n /bye: Says goodbye to the user."
-
-def bot_commands(bot, message)
-  case message.text
-  when '/help'
-    
     bot.api.send_message(chat_id: message.chat.id, text: "Hello, wlecome to telebot #{greet}")
   when '/start'
     bot.api.send_message(chat_id: message.chat.id, text: "Hello, wlecome to telebot #{message.from.first_name}")
@@ -31,7 +29,7 @@ def bot_commands(bot, message)
   when '/bye'
     bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}")
   when '/quote'
-    quote = Quote.find_quote
+    quote = Quote.new.display_quote
     bot.api.send_message(chat_id: message.chat.id, text: "#{quote['text']} \n By: #{quote['author']}")
   when '/joke'
     joke_request = true
@@ -39,7 +37,7 @@ def bot_commands(bot, message)
   else
     if joke_request
       name = message.text
-      joke = Joke.get_joke(name)
+      joke = Joke.new.display_joke(name)
       joke_request = false
       bot.api.send_message(chat_id: message.chat.id, text: joke)
     else

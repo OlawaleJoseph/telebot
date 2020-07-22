@@ -1,9 +1,22 @@
 require_relative 'helper'
 
 class Joke
-  def self.get_joke(name)
+  def initialize
+    @joke = ''
+  end
+
+  def display_joke(name)
+    get_joke(name)
+    joke
+  end
+
+  private
+
+  attr_accessor :joke
+
+  def get_joke(name)
     api = "https://api.chucknorris.io/jokes/random?name=#{name}"
     res = Request.new_request(api)
-    res['value']
+    @joke = res['value']
   end
 end
