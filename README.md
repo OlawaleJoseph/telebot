@@ -1,5 +1,5 @@
 
-# Telegram_bot(@telebot)
+# Telegram_bot(@wales_telebot)
 
 ![screenshot](assets/bot.png)
 
