@@ -1,4 +1,4 @@
-# !/usr/bin/env ruby
+#!/usr/bin/env ruby
 require 'telegram/bot'
 require 'dotenv/load'
 require 'httparty'
@@ -6,7 +6,7 @@ require_relative '../lib/joke'
 require_relative '../lib/quote'
 
 token = ENV['TELEGRAM_API']
-joke_request = false
+$joke_request = nil
 def bot_commands(bot, message)
   case message.text
   when '/help'
@@ -32,13 +32,13 @@ def bot_commands(bot, message)
     quote = Quote.new.display_quote
     bot.api.send_message(chat_id: message.chat.id, text: "#{quote['text']} \n By: #{quote['author']}")
   when '/joke'
-    joke_request = true
+    $joke_request = true
     bot.api.send_message(chat_id: message.chat.id, text: 'What is your name?')
   else
-    if joke_request
+    if $joke_request
       name = message.text
       joke = Joke.new.display_joke(name)
-      joke_request = false
+      $joke_request = false
       bot.api.send_message(chat_id: message.chat.id, text: joke)
     else
       bot.api.send_message(chat_id: message.chat.id, text: 'I do not recognize that command')
